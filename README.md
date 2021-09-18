@@ -13,4 +13,26 @@ Conforme a descrição da [documentação do Spring Batch](https://docs.spring.i
 
 - Java 11
 - Apache Maven
+- Configurar o properties location.base com o caminho onde estará a pasta "pendentes" que conterá os arquivos a serem processados.
+
+## Como executar?
+
+
+## Evidências de funcionamento
+
+Após rodar o programa com o passo anterior. Foi inserido o [arquivo de exemplo arquivo01.csv](https://github.com/maiconsa/cadastro-em-massa-com-spring-batch/blob/main/examples/arquivo01.csv) no caminho [location.base]/pendentes. Então, após o JOB ser executado o arquivo foi validado e movido para [location.base]/validados, conforme imagem abaixo.
+
+![Imagem arquivo validado](https://github.com/maiconsa/cadastro-em-massa-com-spring-batch/blob/main/imagens/arquivo-validado.png)
+
+Com os arquivos válidados o JOB executou a segunda etapa de cadastro de usuários, conforme imagem ho H2.
+![Usuários cadastrado no H2](https://github.com/maiconsa/cadastro-em-massa-com-spring-batch/blob/main/imagens/usuarios-cadastrados-h2.png)
+
+Por fim, para validar campos inconsistente desta ve foi inserido o arquivo [arquivo de exemplo arquivo02.csv](https://github.com/maiconsa/cadastro-em-massa-com-spring-batch/blob/main/examples/arquivo02.csv) no diretório pendente. Após execução automática do JOB o arquivo foi validado e como continha campos inválido foi movido para o diretório [location.base]/invalidos, visto imagem abaixo.
+
+![Arquivo invalido](https://github.com/maiconsa/cadastro-em-massa-com-spring-batch/blob/main/imagens/arquivo-invalido.png)
+
+Para informa o usuários sobre qual campo foi inválidado foi inserido uma coluna contendo as informações das validações realiadas no registros. segue imagem com o arquivo inválido.
+
+![Registro inválidos](https://github.com/maiconsa/cadastro-em-massa-com-spring-batch/blob/main/imagens/registro-invalidos%5D.png)
+
 
