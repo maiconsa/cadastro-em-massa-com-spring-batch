@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.util.ObjectUtils;
 
@@ -20,26 +21,23 @@ public class NovoUsuarioDto   {
 	@NotEmpty(message = "O campo nome é obrigatório!!!")
 	private String nome;
 	
-	@Email(message = "E-mail inválido!!!")
 	@NotEmpty(message = "O campo email é obrigatório")
+	@Email(message = "E-mail inválido!!!")
 	private String email;
 	
 	@Builder.Default
-	private List<String> validacoes;
+	private List<String> validacoes = new ArrayList();
 	
 	public NovoUsuarioDto() {
 		this.validacoes = new ArrayList<>();
 	}
 	
 	public void addValidacao(String validacao) {
-		if(this.validacoes == null) {
-			this.validacoes = new ArrayList<>();
-		}
 		this.validacoes.add(validacao);
 	}
 	
 	public void addValidacoes(List<String> validacoes) {
-		this.validacoes  = validacoes;
+		this.validacoes.addAll(validacoes);
 	}
 
 	public List<String> getValidacoes() {

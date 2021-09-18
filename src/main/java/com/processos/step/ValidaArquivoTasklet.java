@@ -55,11 +55,9 @@ public class ValidaArquivoTasklet implements Tasklet {
 		if(this.resources.length == 0 ) return RepeatStatus.FINISHED;
 		
 		List<NovoUsuarioDto> listaUsuarios = ResourceUtils.read(getCurrentResource(), new NovoUsuarioDtoFieldSetMapper(), new String[]{"nome","email"}, 0);
-		
-		boolean invalid = listaUsuarios.stream().map(usuario -> {
-			 validaUsuario(usuario);
-			 return usuario;
-		}).anyMatch(usuario -> usuario.invalido());
+				
+		boolean invalid = listaUsuarios.parallelStream().map(usuario -> validaUsuario(usuario)).filter(usuario -> usuario.invalido()).findFirst().isPresent();
+		System.out.println(listaUsuarios.toString());
 
 		if(!invalid) {
 			File target = locationProperties.getBase().resolve("validados").resolve(getCurrentResourceFilename()).toFile();		
@@ -78,14 +76,15 @@ public class ValidaArquivoTasklet implements Tasklet {
 		return ++current_index < resources.length  ?  RepeatStatus.CONTINUABLE :RepeatStatus.FINISHED;
 	}
 
-	private void validaUsuario(NovoUsuarioDto usuario) {
+	private NovoUsuarioDto validaUsuario(NovoUsuarioDto usuario) {
 		Set<ConstraintViolation<NovoUsuarioDto>> validations =  Validation.buildDefaultValidatorFactory().getValidator().validate(usuario);
-		 if(this.usuarioRepository.existsByEmail(usuario.getEmail())) {
-			 usuario.addValidacao("E-mail já registrado");
-		 }
 		 if(!validations.isEmpty()) {
 			 usuario.addValidacoes(validations.stream().map(validacao -> validacao.getMessage()).collect(Collectors.toList()));
 		 }
+		 if(this.usuarioRepository.existsByEmail(usuario.getEmail())) {
+			 usuario.addValidacao("E-mail já registrado");
+		 }
+		 return usuario;
 	}
 	
 	private Resource getCurrentResource() {
