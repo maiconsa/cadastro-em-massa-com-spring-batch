@@ -16,7 +16,14 @@ Conforme a descrição da [documentação do Spring Batch](https://docs.spring.i
 - Configurar o properties location.base com o caminho onde estará a pasta "pendentes" que conterá os arquivos a serem processados.
 
 ## Como executar?
+Para gerar o pacote .jar execute o comando:
 
+```bsh
+  mvn clean package
+```
+Para executar o .jar da aplicação execute :
+```bsh
+  javar -jar [CAMINHO-ATE-PROJETO]/target/jobs-com-spring-batch-0.0.1-SNAPSHOT.jar
 
 ## Evidências de funcionamento
 
