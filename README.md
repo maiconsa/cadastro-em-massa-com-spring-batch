@@ -24,6 +24,7 @@ Para gerar o pacote .jar execute o comando:
 Para executar o .jar da aplicação execute :
 ```bsh
   javar -jar [CAMINHO-ATE-PROJETO]/target/jobs-com-spring-batch-0.0.1-SNAPSHOT.jar
+```
 
 ## Evidências de funcionamento
 
